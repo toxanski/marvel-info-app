@@ -13,10 +13,23 @@ export default class MarvelServices {
     }
 
     getAllCharacters() {
-        return this.getResource(`${this.#apiBase}characters?limit=9&offset=210&${this.#apiKey}`);
+        const res = this.getResource(`${this.#apiBase}characters?limit=9&offset=210&${this.#apiKey}`);
+        return res.data.results.map(this._transformCharacter);
     }
 
-    getCharacter(id) {
-        return this.getResource(`${this.#apiBase}characters/${id}?${this.#apiKey}`);
+    async getCharacter(id) {
+        const response = await this.getResource(`${this.#apiBase}characters/${id}?${this.#apiKey}`);
+        return this._transformCharacter(response);
+    }
+
+    _transformCharacter(res) {
+        const route = res.data.results[0];
+        return {
+            name: route.name,
+            description: route.description,
+            thumbnail: `${route.thumbnail.path}.${route.thumbnail.extension}`,
+            homepage: route.urls[0].url,
+            wiki: route.urls[1].url
+        };
     }
 }
