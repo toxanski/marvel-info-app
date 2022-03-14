@@ -28,8 +28,29 @@
         text-transform: uppercase;
     }
     &__descr {
+        position: relative;
         font-size: 14px;
         line-height: 18px;
+        overflow: hidden;
+        text-align: justify;
+        padding-right: 1em;
+
+        &:before {
+            content: '…';
+            position: absolute;
+            right: 0;
+            bottom: 0;
+        }
+
+        &:after {
+            content: "";
+            position: absolute;
+            right: 0;
+            width: 1em;
+            height: 1em;
+            margin-top: 0.2em;
+            background: white;
+        }
     }
     &__btns {
         a:nth-child(1) {

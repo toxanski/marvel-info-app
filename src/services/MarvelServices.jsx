@@ -12,9 +12,9 @@ export default class MarvelServices {
         return await res.json();
     }
 
-    getAllCharacters() {
-        const res = this.getResource(`${this.#apiBase}characters?limit=9&offset=210&${this.#apiKey}`);
-        return res.data.results.map(this._transformCharacter);
+    async getAllCharacters() {
+        const res = await this.getResource(`${this.#apiBase}characters?limit=9&offset=210&${this.#apiKey}`);
+        return await res.data.results.map(item => this._transformCharacter(item, true));
     }
 
     async getCharacter(id) {
@@ -22,14 +22,23 @@ export default class MarvelServices {
         return this._transformCharacter(response);
     }
 
-    _transformCharacter(res) {
-        const route = res.data.results[0];
+    /**
+     * Трансфорирует данные от api
+     * @param {Promise} res
+     * @param {Boolean} list если работа со списком
+     * @returns {{thumbnail: string, wiki, name, description: (* | string), homepage}}
+     * @private
+     */
+    _transformCharacter(res, list = false) {
+        const route = list ? res : res.data.results[0];
+
         return {
             name: route.name,
-            description: route.description,
+            description: route.description.length ? route.description : 'description not found',
             thumbnail: `${route.thumbnail.path}.${route.thumbnail.extension}`,
             homepage: route.urls[0].url,
             wiki: route.urls[1].url
         };
+
     }
 }
