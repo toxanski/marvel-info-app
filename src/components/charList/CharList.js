@@ -11,7 +11,6 @@ class CharList extends React.Component{
             personList: []
         }
 
-        // TODO: возможнна пробелма в фетче самом
         this.marvelServices = new MarvelServices();
     }
 
@@ -25,7 +24,6 @@ class CharList extends React.Component{
     };
 
     onCharactersLoaded = (res) => {
-        console.log(res)
         this.setState(({personList}) => {
             return {
                 personList: res
@@ -34,11 +32,13 @@ class CharList extends React.Component{
     };
 
     render() {
-        // const { personList } = this.state;
+        const { personList } = this.state;
 
         return (
             <div className="char__list">
-                <Characters personList={this.state.personList}/>
+                <ul className="char__grid">
+                    <Character personList={personList} changePerson={this.props.onCharSelected}/>
+                </ul>
                 <button className="button button__main button__long">
                     <div className="inner">load more</div>
                 </button>
@@ -47,23 +47,23 @@ class CharList extends React.Component{
     }
 }
 
-function Characters({ personList }) {
-    // const { name, thumbnail } = personList;
-    console.log(personList)
-
+function Character({ personList, changePerson }) {
+    console.log()
     return (
-        <ul className="char__grid">
-            {
-                personList.forEach((item, i) => {
-                    return (
-                        <li className="char__item">
-                            <img src={item.thumbnail} alt="abyss"/>
-                            <div className="char__name">{item.name}</div>
-                        </li>
-                    )
-                })
-            }
-        </ul>
+        personList.map(item => {
+            const stylesImg = item.thumbnail.includes('image_not_available')
+                ? 'alignment' : null;
+
+            return (
+                <li
+                    className="char__item"
+                    key={item.id}
+                    onClick={() => changePerson(item.id)}>
+                    <img src={item.thumbnail} className={stylesImg} alt="abyss"/>
+                    <div className="char__name">{item.name}</div>
+                </li>
+            )
+        })
     );
 }
 

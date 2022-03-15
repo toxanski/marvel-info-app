@@ -116,8 +116,6 @@ function CharacterThumbnail({thumbnail}) {
 
 function View({ character }) {
     const { name, description, thumbnail, homepage, wiki } = character;
-    console.log(character)
-
 
     return (
         <div className="randomchar__block">
