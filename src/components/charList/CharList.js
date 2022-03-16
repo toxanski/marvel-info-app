@@ -48,7 +48,6 @@ class CharList extends React.Component{
 }
 
 function Character({ personList, changePerson }) {
-    console.log()
     return (
         personList.map(item => {
             const stylesImg = item.thumbnail.includes('image_not_available')

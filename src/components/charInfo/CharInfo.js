@@ -35,6 +35,7 @@ class CharInfo extends Component {
             .getCharacter(charId)
             .then(this.onCharLoaded)
             .catch(this.onError);
+        this.fofoo.bar = 1;
     }
 
     onError = () => {
@@ -78,12 +79,16 @@ class CharInfo extends Component {
 
 function View({ char }) {
     const { name, description, thumbnail, homepage, wiki, comics } = char;
+    const comicsTitle = comics.length ? <div className="char__comics">Comics:</div> : '';
+    const stylesImg = thumbnail.includes('image_not_available')
+        ? 'alignment' : null;
+
     return (
         <>
             <div className="char__basics">
-                <img src={thumbnail} alt={name}/>
+                <img src={thumbnail} alt={name} className={stylesImg}/>
                 <div>
-                    <div className="char__info-name">{name}}</div>
+                    <div className="char__info-name">{name}</div>
                     <div className="char__btns">
                         <a href={homepage} className="button button__main">
                             <div className="inner">homepage</div>
@@ -97,10 +102,13 @@ function View({ char }) {
             <div className="char__descr">
                 {description}
             </div>
-            <div className="char__comics">Comics:</div>
+            {comicsTitle}
             <ul className="char__comics-list">
                 {
-                    comics.map((item, i) => <li key={i} className="char__comics-item">{item.name}</li>)
+                    comics.map((item, i) => {
+                        if (i > 9) return;
+                        return <li key={i} className="char__comics-item">{item.name}</li>
+                    })
                 }
             </ul>
         </>

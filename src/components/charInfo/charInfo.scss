@@ -26,6 +26,9 @@
             height: 150px;
             object-fit: cover;
         }
+        .alignment {
+            object-fit: contain;
+        }
     }
     &__btns {
         margin-top: 35px;
