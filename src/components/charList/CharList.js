@@ -3,6 +3,7 @@ import MarvelServices from "../../services/MarvelServices";
 
 import './charList.scss';
 import abyss from '../../resources/img/abyss.jpg';
+import {PropTypes} from "prop-types";
 
 class CharList extends React.Component{
     constructor(props) {
@@ -90,5 +91,9 @@ function Character({ personList, changePerson }) {
         })
     );
 }
+
+CharList.propTypes = {
+    onCharSelected: PropTypes.func
+};
 
 export default CharList;

@@ -22,12 +22,10 @@ class ErrorBoundary extends Component {
     // }
 
     componentDidCatch(error, errorInfo) {
-        console.log(error, errorInfo);
         this.setState({ error: true });
     }
 
     render() {
-        console.log(this.state.error)
         if (this.state.error) {
            return <ErrorMessage/>
         }
